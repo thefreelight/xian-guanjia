@@ -8,7 +8,7 @@ import hashlib
 import time
 import json
 import requests
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 
 
 class XianGuanjiaClient:
@@ -92,21 +92,214 @@ class XianGuanjiaClient:
         
         return response.json()
     
-    def get_order_list(self, page: int = 1, page_size: int = 20) -> Dict[str, Any]:
+    # ==================== 用户接口 ====================
+    
+    def get_xianyu_shops(self) -> Dict[str, Any]:
+        """
+        查询闲鱼店铺列表
+        
+        Returns:
+            店铺列表响应
+        """
+        return self.request('POST', '/api/user/shops', {})
+    
+    # ==================== 商品接口 ====================
+    
+    def get_categories(self) -> Dict[str, Any]:
+        """
+        查询商品类目
+        
+        Returns:
+            类目列表响应
+        """
+        return self.request('POST', '/api/product/categories', {})
+    
+    def get_product_attributes(self, category_id: int) -> Dict[str, Any]:
+        """
+        查询商品属性
+        
+        Args:
+            category_id: 类目ID
+        
+        Returns:
+            属性列表响应
+        """
+        return self.request('POST', '/api/product/attributes', {
+            'category_id': category_id
+        })
+    
+    def get_product_list(self, page: int = 1, page_size: int = 20, status: Optional[int] = None) -> Dict[str, Any]:
+        """
+        查询商品列表
+        
+        Args:
+            page: 页码
+            page_size: 每页数量
+            status: 商品状态 (可选) 1-上架 2-下架
+        
+        Returns:
+            商品列表响应
+        """
+        body = {
+            'page': page,
+            'page_size': page_size
+        }
+        if status is not None:
+            body['status'] = status
+        return self.request('POST', '/api/product/list', body)
+    
+    def get_product_detail(self, product_id: int) -> Dict[str, Any]:
+        """
+        查询商品详情
+        
+        Args:
+            product_id: 商品ID
+        
+        Returns:
+            商品详情响应
+        """
+        return self.request('POST', '/api/product/detail', {
+            'product_id': product_id
+        })
+    
+    def get_product_skus(self, product_id: int) -> Dict[str, Any]:
+        """
+        查询商品规格（仅多规格商品）
+        
+        Args:
+            product_id: 商品ID
+        
+        Returns:
+            规格列表响应
+        """
+        return self.request('POST', '/api/product/skus', {
+            'product_id': product_id
+        })
+    
+    def create_product(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        创建单个商品
+        
+        Args:
+            data: 商品数据（包含标题、图片、价格等完整信息）
+        
+        Returns:
+            创建响应
+        """
+        return self.request('POST', '/api/product/create', data)
+    
+    def create_products_batch(self, products: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        批量创建商品
+        
+        Args:
+            products: 商品数据列表
+        
+        Returns:
+            创建响应
+        """
+        return self.request('POST', '/api/product/create_batch', {
+            'products': products
+        })
+    
+    def publish_product(self, product_id: int) -> Dict[str, Any]:
+        """
+        上架商品
+        
+        Args:
+            product_id: 商品ID
+        
+        Returns:
+            上架响应
+        """
+        return self.request('POST', '/api/product/publish', {
+            'product_id': product_id
+        })
+    
+    def unpublish_product(self, product_id: int) -> Dict[str, Any]:
+        """
+        下架商品
+        
+        Args:
+            product_id: 商品ID
+        
+        Returns:
+            下架响应
+        """
+        return self.request('POST', '/api/product/unpublish', {
+            'product_id': product_id
+        })
+    
+    def update_product(self, product_id: int, data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        编辑商品
+        
+        Args:
+            product_id: 商品ID
+            data: 更新的商品数据
+        
+        Returns:
+            更新响应
+        """
+        body = {'product_id': product_id}
+        body.update(data)
+        return self.request('POST', '/api/product/update', body)
+    
+    def update_stock(self, product_id: int, stock: int, sku_id: Optional[int] = None) -> Dict[str, Any]:
+        """
+        编辑库存
+        
+        Args:
+            product_id: 商品ID
+            stock: 库存数量
+            sku_id: SKU ID（多规格商品需要）
+        
+        Returns:
+            更新响应
+        """
+        body = {
+            'product_id': product_id,
+            'stock': stock
+        }
+        if sku_id is not None:
+            body['sku_id'] = sku_id
+        return self.request('POST', '/api/product/update_stock', body)
+    
+    def delete_product(self, product_id: int) -> Dict[str, Any]:
+        """
+        删除商品
+        
+        Args:
+            product_id: 商品ID
+        
+        Returns:
+            删除响应
+        """
+        return self.request('POST', '/api/product/delete', {
+            'product_id': product_id
+        })
+    
+    # ==================== 订单接口 ====================
+    
+    def get_order_list(self, page: int = 1, page_size: int = 20, status: Optional[int] = None) -> Dict[str, Any]:
         """
         获取订单列表
         
         Args:
             page: 页码
             page_size: 每页数量
+            status: 订单状态 (可选)
         
         Returns:
             订单列表响应
         """
-        return self.request('POST', '/api/order/list', {
+        body = {
             'page': page,
             'page_size': page_size
-        })
+        }
+        if status is not None:
+            body['status'] = status
+        return self.request('POST', '/api/order/list', body)
     
     def get_order_detail(self, order_id: int) -> Dict[str, Any]:
         """
@@ -122,14 +315,28 @@ class XianGuanjiaClient:
             'order_id': order_id
         })
     
+    def get_order_cards(self, order_id: int) -> Dict[str, Any]:
+        """
+        获取订单卡密列表（虚拟商品）
+        
+        Args:
+            order_id: 订单ID
+        
+        Returns:
+            卡密列表响应
+        """
+        return self.request('POST', '/api/order/cards', {
+            'order_id': order_id
+        })
+    
     def ship_order(self, order_id: int, logistics_no: str, logistics_company: str) -> Dict[str, Any]:
         """
-        订单发货
+        订单物流发货
         
         Args:
             order_id: 订单ID
             logistics_no: 物流单号
-            logistics_company: 物流公司
+            logistics_company: 物流公司代码/名称
         
         Returns:
             发货响应
@@ -140,20 +347,20 @@ class XianGuanjiaClient:
             'logistics_company': logistics_company
         })
     
-    def get_product_list(self, page: int = 1, page_size: int = 20) -> Dict[str, Any]:
+    def update_order_price(self, order_id: int, price: float) -> Dict[str, Any]:
         """
-        获取商品列表
+        修改订单价格
         
         Args:
-            page: 页码
-            page_size: 每页数量
+            order_id: 订单ID
+            price: 新价格
         
         Returns:
-            商品列表响应
+            修改响应
         """
-        return self.request('POST', '/api/product/list', {
-            'page': page,
-            'page_size': page_size
+        return self.request('POST', '/api/order/update_price', {
+            'order_id': order_id,
+            'price': price
         })
     
     def place_order(self, goods_no: str, goods_type: int, buyer_nick: str, 
@@ -180,6 +387,18 @@ class XianGuanjiaClient:
             'order_no': order_no,
             'price': price
         })
+    
+    # ==================== 其他接口 ====================
+    
+    def get_logistics_companies(self) -> Dict[str, Any]:
+        """
+        查询快递公司列表
+        
+        Returns:
+            快递公司列表响应
+            如果列表内没有需要的快递公司，可以联系闲管家技术支持补充
+        """
+        return self.request('POST', '/api/logistics/companies', {})
     
     def query_balance(self) -> Dict[str, Any]:
         """

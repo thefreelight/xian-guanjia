@@ -4,6 +4,42 @@
 
 生产环境地址：https://open.goofish.pro
 
+## 相关文档
+
+完整的 API 列表：
+
+### 用户接口
+- [查询闲鱼店铺](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-93586388.md)
+
+### 商品接口
+- [查询商品类目](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-97448687.md)
+- [查询商品属性](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-95804125.md)
+- [查询商品列表](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-93586381.md)
+- [查询商品详情](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-93586380.md)
+- [查询商品规格](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-165788779.md) - 仅多规格商品才能查询
+- [创建商品（单个）](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-93586377.md)
+- [创建商品（批量）](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-93586378.md)
+- [上架商品](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-95038267.md)
+- [下架商品](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-93586382.md)
+- [编辑商品](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-93586379.md)
+- [编辑库存](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-93586384.md)
+- [删除商品](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-93586383.md)
+
+### 订单接口
+- [查询订单列表](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-95074856.md)
+- [查询订单详情](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-93586385.md)
+- [订单卡密列表](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-97142794.md)
+- [订单物流发货](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-93586386.md)
+- [订单修改价格](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-333703388.md)
+
+### 推送回调接口
+- [商品回调通知](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-98676477.md) - 请商家自行在上架商品和编辑商品接口填写真实的推送地址
+- [商品推送通知](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-108700789.md) - 请商家自行在闲管家的开放平台填写真实的推送地址
+- [订单推送通知](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-93586387.md) - 请商家自行在闲管家的开放平台填写真实的推送地址
+
+### 其他接口
+- [查询快递公司](https://s.apifox.cn/3ac13d69-5a38-4536-ae9b-a54001854ef8/api-97431955.md) - 如列表内没有需要的快递公司，可以联系闲管家技术支持补充
+
 ## 相关下载
 
 - 闲管家省市区：
@@ -13,9 +49,6 @@
 - 商品发布异常状态码及处理建议：
   - https://file.goofish.pro/doc/商品异常状态码.xlsx
   - https://file.goofish.pro/doc/商品异常状态码.sql
-
-- 闲管家虚拟货源标准接口：
-  - https://apifox.com/apidoc/shared-cf4d53fd-8bb2-41c5-8da3-371ba9a38956/doc-4985015
 
 ## 注意事项
 
