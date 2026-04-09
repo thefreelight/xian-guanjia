@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.vscode/
+.idea/
+*.log
+config.py
+credentials.json
